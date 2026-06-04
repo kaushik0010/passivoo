@@ -17,6 +17,12 @@ export enum DropRarity {
   LEGENDARY = "LEGENDARY",
 }
 
+// Enforce behavioral rules for the claiming engine
+export enum DropType {
+  PERMANENT = "PERMANENT", // Claimable once globally (e.g., City, Stadium, Country)
+  MATCH = "MATCH",         // Unique to a specific match (e.g., Match Badge, Special Event)
+}
+
 // Enforce icon identifiers that the frontend can map to Lucide icons
 export enum DropIcon {
   MAP_PIN = "MAP_PIN",
@@ -28,7 +34,7 @@ export enum DropIcon {
 
 export interface IDrop extends Document {
   name: string;
-  // slug removed
+  dropType: DropType; // NEW: Determines game-loop claiming rules
   category: DropCategory;
   rarity: DropRarity;
   points: number;
@@ -44,7 +50,11 @@ export interface IDrop extends Document {
 const dropSchema = new Schema<IDrop>(
   {
     name: { type: String, required: true },
-    // slug removed entirely
+    dropType: { 
+      type: String, 
+      enum: Object.values(DropType), 
+      required: true // Intentionally no default value to force intentional creation
+    },
     category: { 
       type: String, 
       enum: Object.values(DropCategory), 
@@ -93,8 +103,8 @@ const dropSchema = new Schema<IDrop>(
 // INDEXES FOR QUERY OPTIMIZATION
 // ==========================================
 
-// 1. Finding all drops belonging to a specific match
-dropSchema.index({ matchId: 1 });
+// 1. Finding drops for a specific match, optimized for claim-engine behavioral filtering
+dropSchema.index({ matchId: 1, dropType: 1 });
 
 // 2. Finding drops by category
 dropSchema.index({ category: 1 });
