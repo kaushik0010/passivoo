@@ -7,6 +7,7 @@ export enum DropCategory {
   COUNTRY = "COUNTRY",
   EVENT_BADGE = "EVENT_BADGE",
   SPECIAL = "SPECIAL",
+  TROPHY = "TROPHY",
 }
 
 // Enforce strict rarity tiers
@@ -28,6 +29,7 @@ export enum DropIcon {
   MAP_PIN = "MAP_PIN",
   LANDMARK = "LANDMARK",
   GLOBE = "GLOBE",
+  SHIELD = "SHIELD",
   TROPHY = "TROPHY",
   STAR = "STAR",
 }
@@ -102,6 +104,9 @@ const dropSchema = new Schema<IDrop>(
 // ==========================================
 // INDEXES FOR QUERY OPTIMIZATION
 // ==========================================
+
+// Prevents duplicate drops with the exact same name from being generated for a single match
+dropSchema.index({ matchId: 1, name: 1 }, { unique: true });
 
 // 1. Finding drops for a specific match, optimized for claim-engine behavioral filtering
 dropSchema.index({ matchId: 1, dropType: 1 });

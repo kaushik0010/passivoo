@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:matches": "tsx --env-file=.env.local scripts/seed-matches.ts",
+    "seed:drops": "tsx --env-file=.env.local scripts/seed-drops.ts"
   },
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.6.14",
@@ -38,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   },
   "pnpm": {
