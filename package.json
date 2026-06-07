@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed:matches": "tsx --env-file=.env.local scripts/seed-matches.ts",
-    "seed:drops": "tsx --env-file=.env.local scripts/seed-drops.ts"
+    "seed:drops": "tsx --env-file=.env.local scripts/seed-drops.ts",
+    "seed:migrate": "tsx --env-file=.env.local scripts/migrate-user-stats.ts"
   },
   "dependencies": {
     "@better-auth/mongo-adapter": "^1.6.14",

@@ -90,12 +90,12 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.QUARTER_FINAL]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.COMMON,
+      rarity: DropRarity.RARE,
       dropType: DropType.PERMANENT,
     },
     {
       category: DropCategory.STADIUM,
-      rarity: DropRarity.RARE,
+      rarity: DropRarity.EPIC,
       dropType: DropType.PERMANENT,
     },
     {
@@ -105,7 +105,7 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
     },
     {
       category: DropCategory.SPECIAL,
-      rarity: DropRarity.EPIC,
+      rarity: DropRarity.LEGENDARY,
       dropType: DropType.MATCH,
     },
   ],
@@ -113,22 +113,22 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.SEMI_FINAL]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.COMMON,
-      dropType: DropType.PERMANENT,
-    },
-    {
-      category: DropCategory.STADIUM,
       rarity: DropRarity.RARE,
       dropType: DropType.PERMANENT,
     },
     {
-      category: DropCategory.EVENT_BADGE,
+      category: DropCategory.STADIUM,
       rarity: DropRarity.EPIC,
+      dropType: DropType.PERMANENT,
+    },
+    {
+      category: DropCategory.EVENT_BADGE,
+      rarity: DropRarity.LEGENDARY,
       dropType: DropType.MATCH,
     },
     {
       category: DropCategory.SPECIAL,
-      rarity: DropRarity.EPIC,
+      rarity: DropRarity.LEGENDARY,
       dropType: DropType.MATCH,
     },
   ],
@@ -136,22 +136,22 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.THIRD_PLACE]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.COMMON,
-      dropType: DropType.PERMANENT,
-    },
-    {
-      category: DropCategory.STADIUM,
       rarity: DropRarity.RARE,
       dropType: DropType.PERMANENT,
     },
     {
-      category: DropCategory.EVENT_BADGE,
+      category: DropCategory.STADIUM,
       rarity: DropRarity.EPIC,
+      dropType: DropType.PERMANENT,
+    },
+    {
+      category: DropCategory.EVENT_BADGE,
+      rarity: DropRarity.LEGENDARY,
       dropType: DropType.MATCH,
     },
     {
       category: DropCategory.SPECIAL,
-      rarity: DropRarity.EPIC,
+      rarity: DropRarity.LEGENDARY,
       dropType: DropType.MATCH,
     },
   ],

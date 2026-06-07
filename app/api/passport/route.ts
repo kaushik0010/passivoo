@@ -3,11 +3,12 @@ import { headers } from "next/headers";
 import mongoose from "mongoose";
 import { UserDrop } from "@/features/collections/models/user-drop.model";
 import { Drop } from "@/features/drops/models/drop.model"; // Ensure model is registered for populate
+import { UserStats } from "@/features/leaderboard/models/user-stats.model";
 import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/connect";
+import { ESTIMATED_TOTAL_DROPS } from "@/config/leaderboard.constants";
 
-const PAGE_LIMIT = 2;
-const ESTIMATED_TOTAL_DROPS = 500; // Used for Tournament Progress calculation
+const PAGE_LIMIT = 20; // Reverted to standard production limit (adjust if testing deeper pagination)
 
 // ==========================================
 // RESPONSE SHAPES
@@ -56,26 +57,9 @@ export async function GET(req: Request) {
     // PARALLEL EXECUTION: STATS & PAGINATION
     // ==========================================
     
-    // Promise 1: Calculate lifetime stats using a single aggregation pipeline
-    const statsPromise = UserDrop.aggregate([
-      { $match: { userId } },
-      {
-        $lookup: {
-          from: "drops", // Mongoose collection name for Drop
-          localField: "dropId",
-          foreignField: "_id",
-          as: "dropDetails",
-        },
-      },
-      { $unwind: "$dropDetails" },
-      {
-        $group: {
-          _id: null,
-          totalStamps: { $sum: 1 },
-          totalPoints: { $sum: "$dropDetails.points" },
-        },
-      },
-    ]);
+    // Promise 1: Fetch O(1) Denormalized Stats
+    // Replaces the heavy $lookup and $group aggregation pipeline
+    const statsPromise = UserStats.findOne({ userId }).lean();
 
     // Promise 2: Fetch paginated collectibles using composite cursor
     let query: any = { userId };
@@ -111,15 +95,15 @@ export async function GET(req: Request) {
       .lean();
 
     // Execute both database operations simultaneously for max performance
-    const [statsResult, userDrops] = await Promise.all([statsPromise, dropsPromise]);
+    const [userStats, userDrops] = await Promise.all([statsPromise, dropsPromise]);
 
     // ==========================================
     // FORMAT RESPONSE
     // ==========================================
     
-    // Parse Stats
-    const totalStamps = statsResult[0]?.totalStamps || 0;
-    const totalPoints = statsResult[0]?.totalPoints || 0;
+    // Parse Stats (Gracefully handle missing UserStats for brand new users)
+    const totalStamps = userStats?.totalCollectibles || 0;
+    const totalPoints = userStats?.totalPoints || 0;
     const progressPercent = Math.min(Math.round((totalStamps / ESTIMATED_TOTAL_DROPS) * 100), 100);
 
     const stats: PassportStatsDto = {
