@@ -4,6 +4,16 @@ import { Drop, DropCategory, DropIcon, DropType, DropRarity } from "@/features/d
 import { FREE_DROP_RULES, RARITY_POINTS, DropGenerationRule } from "@/data/drop-generation-rules";
 import { connectDB } from "@/lib/db/connect";
 
+// NEW IMPORTS FOR PREMIUM PHASE 2
+import { PremiumBundle } from "@/features/premium/models/premium-bundle.model";
+import { PremiumDrop } from "@/features/premium/models/premium-drop.model";
+import {
+  PREMIUM_THEME_MAP,
+  PREMIUM_BUNDLE_PRICE_CENTS,
+  PREMIUM_FINAL_BUNDLE_PRICE_CENTS,
+  PREMIUM_BUNDLE_EXPIRY_DAYS,
+} from "@/config/premium.constants";
+
 /**
  * Validates that every configured match stage adheres to the core product rule:
  * "No user should leave empty-handed."
@@ -107,11 +117,51 @@ async function seedDrops() {
       throw new Error("No matches found in MongoDB. Please run the Match Seeder first.");
     }
 
-    console.log(`🚀 Starting drop generation for ${matches.length} matches...\n`);
+    // ==========================================
+    // GLOBAL EXPIRY CALCULATION
+    // ==========================================
+    // Find the latest match currently seeded in the database
+    const latestMatch = matches.reduce((latest, current) => {
+      return new Date(current.claimEndAt) > new Date(latest.claimEndAt) ? current : latest;
+    });
 
-    // Prepare BulkWrite Operations array
+    // The known date of the FIFA 2026 Final. 
+    // This acts as a safeguard if the Final match hasn't been seeded into the database yet.
+    const TOURNAMENT_END_DATE = new Date("2026-07-20T00:00:00Z");
+    
+    // Use the latest seeded match, OR the known final date (whichever is later)
+    const absoluteLastMatchDate = new Date(latestMatch.claimEndAt) > TOURNAMENT_END_DATE 
+      ? new Date(latestMatch.claimEndAt) 
+      : TOURNAMENT_END_DATE;
+
+    // Unified Expiry: 7 days after the tournament concludes.
+    const globalExpiresAt = new Date(
+      absoluteLastMatchDate.getTime() + PREMIUM_BUNDLE_EXPIRY_DAYS * 24 * 60 * 60 * 1000
+    );
+    
+    console.log(`🔒 Unified Storefront Expiry set to: ${globalExpiresAt.toISOString()}`);
+
+    // ==========================================
+    // ID RESOLUTION MAP FOR RELATIONAL IDEMPOTENCY
+    // ==========================================
+    console.log("⏳ Resolving existing Premium Bundles for relational safety...");
+    const existingBundles = await PremiumBundle.find({}, { matchId: 1, _id: 1 }).lean();
+    const bundleMap = new Map<string, mongoose.Types.ObjectId>();
+    for (const b of existingBundles) {
+      bundleMap.set(String(b.matchId), b._id as mongoose.Types.ObjectId);
+    }
+    console.log(`✅ Pre-fetched ${existingBundles.length} existing bundles.\n`);
+
+    console.log(`🚀 Starting dual-generation for ${matches.length} matches...\n`);
+
+    // Prepare BulkWrite Operations arrays
     const bulkOperations: any[] = [];
+    const premiumBundleOps: any[] = [];
+    const premiumDropOps: any[] = [];
+    
     let dropsProcessed = 0;
+    let premiumBundlesProcessed = 0;
+    let premiumDropsProcessed = 0;
 
     for (const match of matches) {
       const stageRules = FREE_DROP_RULES[match.stage as MatchStage];
@@ -119,6 +169,45 @@ async function seedDrops() {
       if (!stageRules || stageRules.length === 0) {
         throw new Error(`Missing generation rules for Match Stage: ${match.stage}`);
       }
+
+      // ==========================================
+      // PREMIUM BUNDLE GENERATION
+      // ==========================================
+      const matchIdStr = String(match._id);
+      let bundleId = bundleMap.get(matchIdStr);
+      
+      if (!bundleId) {
+        bundleId = new mongoose.Types.ObjectId();
+        bundleMap.set(matchIdStr, bundleId);
+      }
+
+      const isFinal = match.stage === MatchStage.FINAL;
+      const priceCents = isFinal ? PREMIUM_FINAL_BUNDLE_PRICE_CENTS : PREMIUM_BUNDLE_PRICE_CENTS;
+      const theme = PREMIUM_THEME_MAP[match.stage as MatchStage];
+
+      premiumBundleOps.push({
+        updateOne: {
+          filter: { matchId: match._id },
+          update: {
+            $setOnInsert: { 
+              _id: bundleId,
+              matchId: match._id, // EXPLICIT: Immutable relational anchor
+              isActive: true 
+            },
+            $set: {
+              matchNumber: match.matchNumber,
+              name: `${match.homeTeam} vs ${match.awayTeam} Premium Bundle`,
+              priceCents,
+              currency: "USD",
+              theme,
+              unlockAt: match.claimStartAt, // Opens relative to its specific match
+              expiresAt: globalExpiresAt,   // Closes uniformly across the tournament
+            }
+          },
+          upsert: true
+        }
+      });
+      premiumBundlesProcessed++;
 
       // Track names generated for this specific match to prevent internal duplicates
       const generatedNamesForMatch = new Set<string>();
@@ -146,42 +235,76 @@ async function seedDrops() {
           throw new Error(`Missing points mapping for rarity: ${rule.rarity}`);
         }
 
-        // 3. Queue Upsert Operation
+        // ==========================================
+        // FREE DROP GENERATION
+        // ==========================================
         bulkOperations.push({
           updateOne: {
             filter: { matchId: match._id, name: dropName },
             update: {
+              $setOnInsert: {
+                matchId: match._id, // EXPLICIT: Immutable relationship
+                name: dropName,     // EXPLICIT: Immutable identity
+                isPremium: false,   // EXPLICIT: Core structural flag
+                isActive: true 
+              },
               $set: {
-                matchId: match._id, // EXPLICIT: Ensures schema validation passes natively
-                name: dropName,     // EXPLICIT: Ensures schema validation passes natively
                 category: rule.category,
                 rarity: rule.rarity,
                 dropType: rule.dropType,
                 points: points,
                 icon: icon,
-                isPremium: false,
-                isActive: true,
               }
             },
             upsert: true
           }
         });
-
         dropsProcessed++;
+
+        // ==========================================
+        // PREMIUM DROP GENERATION
+        // ==========================================
+        const premiumDropName = `Premium ${dropName}`;
+
+        premiumDropOps.push({
+          updateOne: {
+            filter: { bundleId: bundleId, name: premiumDropName },
+            update: {
+              $setOnInsert: {
+                bundleId: bundleId,       // EXPLICIT: Immutable relationship
+                name: premiumDropName,    // EXPLICIT: Immutable identity
+                matchId: match._id,       // EXPLICIT: Immutable relationship
+                isActive: true
+              },
+              $set: {
+                category: rule.category,
+                rarity: rule.rarity,
+              }
+            },
+            upsert: true
+          }
+        });
+        premiumDropsProcessed++;
       }
 
-      console.log(`✓ Match ${match.matchNumber} → ${stageRules.length} drops generated`);
+      console.log(`✓ Match ${match.matchNumber} → ${stageRules.length} Free & Premium pairs queued`);
     }
 
-    // Execute all database operations in a single fast network request
-    if (bulkOperations.length > 0) {
-      console.log("\n💾 Writing to database...");
-      await Drop.bulkWrite(bulkOperations);
-    }
+    // Execute all database operations concurrently
+    console.log("\n💾 Executing Mass Bulk Writes...");
+    
+    const writePromises = [];
+    if (bulkOperations.length > 0) writePromises.push(Drop.bulkWrite(bulkOperations));
+    if (premiumBundleOps.length > 0) writePromises.push(PremiumBundle.bulkWrite(premiumBundleOps));
+    if (premiumDropOps.length > 0) writePromises.push(PremiumDrop.bulkWrite(premiumDropOps));
+    
+    await Promise.all(writePromises);
 
     console.log("\n🎉 Drop seeding completed successfully.");
-    console.log(`📊 Total matches processed: ${matches.length}`);
-    console.log(`📊 Total drops processed/upserted: ${dropsProcessed}`);
+    console.log(`📊 Total Matches Processed: ${matches.length}`);
+    console.log(`📊 Total Free Drops Upserted: ${dropsProcessed}`);
+    console.log(`📊 Total Premium Bundles Upserted: ${premiumBundlesProcessed}`);
+    console.log(`📊 Total Premium Drops Upserted: ${premiumDropsProcessed}`);
 
   } catch (error) {
     console.error("\n❌ Fatal Error during drop seeding:");

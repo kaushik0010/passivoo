@@ -185,36 +185,3 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   ],
 };
 
-/**
- * Every premium bundle contains exactly:
- * 1 Common
- * 1 Rare
- * 1 Epic
- *
- * Premium collectibles are cosmetic only.
- */
-export const PREMIUM_BUNDLE_RULE = {
-  common: 1,
-  rare: 1,
-  epic: 1,
-} as const;
-
-/**
- * Welcome pack rules.
- */
-export const WELCOME_PACK_RULE = {
-  common: 1,
-  rare: 1,
-  epic: 1,
-} as const;
-
-/**
- * Premium collectibles never affect progression.
- */
-export const PREMIUM_DROP_POINTS = 0;
-
-/**
- * Premium bundles remain available
- * after the tournament finishes.
- */
-export const PREMIUM_BUNDLE_EXPIRY_DAYS = 7;

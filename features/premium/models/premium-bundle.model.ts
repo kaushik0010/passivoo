@@ -1,43 +1,91 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import { PremiumTheme } from "@/config/premium.constants";
 
-// Enforce strictly supported currencies for global scaling
-export enum Currency {
-  USD = "USD",
-  EUR = "EUR",
-  INR = "INR",
-}
+// ==========================================
+// INTERFACES
+// ==========================================
 
 export interface IPremiumBundle extends Document {
+  /** The specific numeric identifier for the match (e.g., 1 through 104) */
+  matchNumber: number;
+  /** The display name of the premium bundle (e.g., "Match 12: Argentina vs Mexico Premium Bundle") */
   name: string;
-  price: number;
-  currency: Currency;
-  matchId: mongoose.Types.ObjectId; // Foreign key mapping to IMatch
+  /** The price of the bundle, strictly stored in cents to prevent floating-point errors */
+  priceCents: number;
+  /** The currency of the transaction, strictly locked to USD */
+  currency: "USD";
+  /** The visual theme mapping that drives frontend rendering */
+  theme: PremiumTheme;
+  /** Foreign key mapping to the Match this bundle was generated for */
+  matchId: Types.ObjectId;
+  /** The exact timestamp when this bundle becomes available for purchase */
   unlockAt: Date;
+  /** The exact timestamp when this bundle is archived and no longer purchasable */
+  expiresAt: Date;
+  /** Admin toggle to soft-disable a bundle without deleting it or waiting for expiry */
   isActive: boolean;
+  
+  /** Automatically managed by Mongoose timestamps */
   createdAt: Date;
+  /** Automatically managed by Mongoose timestamps */
   updatedAt: Date;
 }
 
+// ==========================================
+// SCHEMA DEFINITION
+// ==========================================
+
 const premiumBundleSchema = new Schema<IPremiumBundle>(
   {
-    name: { type: String, required: true },
-    price: { 
+    matchNumber: {
+      type: Number,
+      required: [true, "A match number is required to ensure deterministic sorting"],
+    },
+    name: { 
+      type: String, 
+      required: [true, "Premium Bundle name is required"],
+      trim: true,
+      maxlength: [100, "Name cannot exceed 100 characters"],
+    },
+    priceCents: { 
       type: Number, 
-      required: true, 
-      min: [0, "Price cannot be negative"] 
+      required: [true, "Price in cents is required"], 
+      min: [0, "Price cannot be negative"],
     },
     currency: { 
       type: String, 
-      enum: Object.values(Currency), 
-      required: true 
+      required: true,
+      default: "USD",
+      enum: {
+        values: ["USD"],
+        message: "{VALUE} is not a supported currency. Passivoo is locked to USD.",
+      },
+    },
+    theme: {
+      type: String,
+      required: [true, "Premium Theme is required"],
+      enum: {
+        values: Object.values(PremiumTheme),
+        message: "{VALUE} is not a valid PremiumTheme",
+      },
     },
     matchId: { 
       type: Schema.Types.ObjectId, 
       ref: "Match", 
-      required: true 
+      required: [true, "A Premium Bundle must be associated with a Match"], 
     },
-    unlockAt: { type: Date, required: true },
-    isActive: { type: Boolean, default: true },
+    unlockAt: { 
+      type: Date, 
+      required: [true, "Unlock timestamp is required"], 
+    },
+    expiresAt: { 
+      type: Date, 
+      required: [true, "Expiry timestamp is required"], 
+    },
+    isActive: { 
+      type: Boolean, 
+      default: true, 
+    },
   },
   {
     timestamps: true,
@@ -45,16 +93,27 @@ const premiumBundleSchema = new Schema<IPremiumBundle>(
 );
 
 // ==========================================
-// INDEXES FOR QUERY OPTIMIZATION
+// INDEXES FOR QUERY OPTIMIZATION & SAFETY
 // ==========================================
 
-// 1. Finding bundles belonging to a specific match (e.g., viewing Match #1's store)
-premiumBundleSchema.index({ matchId: 1 });
+// Note: Mongoose automatically creates a unique index for `matchNumber` because of `unique: true`.
+// This satisfies the 1 Match = 1 Bundle rule and replaces the need for a separate `{ matchId: 1 }, { unique: true }` index.
 
-// 2. Finding currently available bundles globally or per query
-// Optimizes: { isActive: true, unlockAt: { $lte: new Date() } }
-premiumBundleSchema.index({ isActive: 1, unlockAt: 1 });
+// 1. Deterministic Sorting Index (Admin/Support tools)
+premiumBundleSchema.index({ matchNumber: 1 });
 
-// Prevent Next.js HMR from redefining the model during development
+// 2. Relational Lookup & Uniqueness Constraint (1 Match = 1 Bundle)
+premiumBundleSchema.index({ matchId: 1 }, { unique: true });
+
+// 3. The Active Store Index
+// Optimizes fetching currently purchasable bundles
+premiumBundleSchema.index({ isActive: 1, unlockAt: 1, expiresAt: 1 });
+
+
+// ==========================================
+// EXPORT (HMR Safe)
+// ==========================================
+
 export const PremiumBundle: Model<IPremiumBundle> =
-  mongoose.models.PremiumBundle || mongoose.model<IPremiumBundle>("PremiumBundle", premiumBundleSchema);
+  mongoose.models.PremiumBundle || 
+  mongoose.model<IPremiumBundle>("PremiumBundle", premiumBundleSchema);
