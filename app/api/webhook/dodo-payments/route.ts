@@ -17,8 +17,9 @@ export const POST = Webhooks({
 
     // Rule 4: Safely extract exact payload paths defined by Dodo Docs
     const paymentId = payload?.data?.payment_id;
-    const amountPaid = payload?.data?.total_amount;
-    const currency = payload?.data?.currency;
+    // Map to settlement values to preserve a unified USD ledger under adaptive pricing
+    const amountPaid = payload?.data?.settlement_amount;
+    const currency = payload?.data?.settlement_currency;
     const metadata = payload?.data?.metadata;
 
     // Rule 5: Metadata Validation (Only require userId and bundleId)

@@ -7,7 +7,7 @@ export default async function PremiumTestPage() {
   
   // Explicitly fetch Match 2
   const bundle = await PremiumBundle.findOne({
-    matchNumber: 2, 
+    matchNumber: 3, 
     isActive: true,
   }).lean();
 
