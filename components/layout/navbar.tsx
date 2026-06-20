@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
-import { Menu, Ticket, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 
 import { getCurrentUser } from "@/features/auth/actions/get-current-user";
 import { signOutAction } from "@/features/auth/actions/sign-out";
@@ -21,16 +22,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
+// Import the Scroll Wrapper
+import { ScrollHeader } from "./scroll-header";
+
 export async function Navbar() {
-  // Fetch session state securely on the server
   const authData = await getCurrentUser();
   const user = authData?.user;
 
-  // Safe fallbacks to satisfy TypeScript's strict null checks
   const displayUsername = user?.username || "Collector";
   const userInitials = displayUsername.substring(0, 2).toUpperCase();
 
-  // Inline server action to handle logout and redirect
   const handleSignOut = async () => {
     "use server";
     await signOutAction();
@@ -38,13 +39,20 @@ export async function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl">
+    <ScrollHeader>
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
         
         {/* Brand / Logo */}
         <Link href="/" className="flex items-center gap-2 cursor-pointer group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/10 border border-amber-500/20 group-hover:bg-amber-500/20 transition-colors">
-            <Ticket className="h-4 w-4 text-amber-500" />
+          <div className="flex items-center justify-center transition-transform group-hover:scale-105">
+            <Image 
+              src="/logo.png" 
+              alt="Passivoo Logo" 
+              width={32} 
+              height={32} 
+              className="object-contain"
+              priority 
+            />
           </div>
           <span className="font-bold text-lg tracking-tight text-slate-100">
             Passivoo
@@ -53,8 +61,6 @@ export async function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          {/* Future generic links can go here (e.g., Leaderboard, Drops) */}
-          
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
@@ -70,7 +76,7 @@ export async function Navbar() {
                 </div>
                 <DropdownMenuSeparator className="bg-slate-800" />
                 <DropdownMenuItem asChild className="cursor-pointer focus:bg-slate-900 focus:text-slate-100">
-                  <Link href="/passport" className="w-full">My Passport</Link>
+                  <Link href="/collections" className="w-full">My Passport</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-slate-800" />
                 <DropdownMenuItem asChild className="cursor-pointer focus:bg-red-950 focus:text-red-400 text-red-400">
@@ -110,7 +116,13 @@ export async function Navbar() {
             <SheetContent side="right" className="bg-slate-950 border-slate-800 text-slate-200 w-[280px] p-6">
               <SheetHeader className="text-left mb-8">
                 <SheetTitle className="text-slate-100 flex items-center gap-2">
-                  <Ticket className="h-5 w-5 text-amber-500" />
+                  <Image 
+                    src="/logo.png" 
+                    alt="Passivoo Logo" 
+                    width={20} 
+                    height={20} 
+                    className="object-contain"
+                  />
                   Passivoo
                 </SheetTitle>
               </SheetHeader>
@@ -131,10 +143,9 @@ export async function Navbar() {
                     </div>
                     
                     <div className="flex flex-col gap-4">
-                      <Link href="/passport" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
+                      <Link href="/collections" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
                         My Passport
                       </Link>
-                      {/* Future mobile links go here */}
                     </div>
 
                     <div className="mt-auto pt-6 border-t border-slate-800">
@@ -168,6 +179,6 @@ export async function Navbar() {
         </div>
         
       </div>
-    </header>
+    </ScrollHeader>
   );
 }

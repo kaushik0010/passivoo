@@ -1,9 +1,9 @@
-import { MatchStage } from "@/features/matches/models/match.model";
-import { DropCategory, DropRarity } from "@/features/drops/models/drop.model";
 
 // ==========================================
 // BUSINESS RULES
 // ==========================================
+
+import { MatchStage } from "@/features/matches/types/match.types";
 
 /** * The number of days a Premium Bundle remains available for purchase 
  * AFTER its associated match has concluded. 
@@ -53,34 +53,3 @@ export const PREMIUM_THEME_MAP: Record<MatchStage, PremiumTheme> = {
   [MatchStage.THIRD_PLACE]: PremiumTheme.CHAMPION_THEME,
   [MatchStage.FINAL]: PremiumTheme.FINAL_THEME,
 };
-
-// ==========================================
-// EXCEPTIONAL RULES
-// ==========================================
-
-// /**
-//  * Because the Welcome Pack is granted on signup and is NOT tied to a specific 
-//  * tournament Match, it cannot derive its premium structure dynamically. 
-//  * This explicit rule defines the Premium Welcome Pack.
-//  */
-// export const PREMIUM_WELCOME_PACK_RULE = {
-//   theme: PremiumTheme.OPENING_THEME,
-//   priceCents: 0, // Welcome packs might be a free introductory taste, or a fixed low cost (e.g., 199)
-//   drops: [
-//     {
-//       category: DropCategory.HOST_CITY,
-//       rarity: DropRarity.EPIC,
-//       nameSuffix: "Premium Host City Stamp",
-//     },
-//     {
-//       category: DropCategory.STADIUM,
-//       rarity: DropRarity.EPIC,
-//       nameSuffix: "Premium Opening Stadium Stamp",
-//     },
-//     {
-//       category: DropCategory.EVENT_BADGE,
-//       rarity: DropRarity.LEGENDARY,
-//       nameSuffix: "Premium Genesis Badge",
-//     },
-//   ],
-// };

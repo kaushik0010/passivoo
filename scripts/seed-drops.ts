@@ -264,7 +264,7 @@ async function seedDrops() {
         // ==========================================
         // PREMIUM DROP GENERATION
         // ==========================================
-        const premiumDropName = `Premium ${dropName}`;
+        const premiumDropName = `${dropName}`;
 
         premiumDropOps.push({
           updateOne: {
