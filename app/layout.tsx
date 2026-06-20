@@ -77,6 +77,16 @@ export const metadata: Metadata = {
     creator: "@passivoo", // Replace with your actual Twitter handle if you have one
     images: ["/twitter-image.png"], // Falls back to opengraph-image if not provided
   },
+
+  // Add this block for flawless iOS Home Screen installation
+  appleWebApp: {
+    title: "Passivoo",
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png", // Next.js will automatically look for this in /public
+  },
   
   // Prevents search engines from indexing the site as a web app manifest incorrectly
   manifest: "/site.webmanifest",

@@ -70,7 +70,10 @@ export async function getActivePremiumBundle({
     }
 
     // 2. Fetch the globally active bundle
+    // FIXED: Added .sort({ unlockAt: -1 }) to ensure we get the MOST RECENT active match 
+    // if multiple bundles overlap in their timeframes.
     const bundle = await PremiumBundle.findOne(bundleQuery)
+      .sort({ unlockAt: -1 })
       .select("_id matchNumber name priceCents currency theme")
       .lean();
 
