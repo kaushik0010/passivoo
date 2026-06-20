@@ -51,7 +51,7 @@
   },
   "pnpm": {
     "overrides": {
-      "better-auth": "$better-auth"
+      "kysely": "0.28.17"
     }
   }
 }
