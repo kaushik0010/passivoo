@@ -9,6 +9,8 @@ import { PostHogPageView } from "@/components/analytics/posthog-page-view";
 import { PostHogIdentifier } from "@/components/analytics/posthog-identifier";
 import { getCurrentUser } from "@/features/auth/actions/get-current-user";
 
+import { Analytics } from "@vercel/analytics/next"
+
 // Initialize Inter font for a clean, highly legible, modern aesthetic
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -129,6 +131,7 @@ export default async function RootLayout({
             {/* Main Content Area */}
             <main className="flex-1 flex flex-col">
               {children}
+              <Analytics />
             </main>
           </div>
 
