@@ -3,6 +3,9 @@ import { toPng } from "html-to-image";
 export interface ExportStampOptions {
   filename?: string;
   pixelRatio?: number;
+  backgroundColor?: string;
+  // NEW: Let the caller decide whether to share or download
+  action?: "share" | "download"; 
 }
 
 /**
@@ -12,7 +15,12 @@ export async function exportStampClient(
   node: HTMLElement,
   options: ExportStampOptions = {}
 ): Promise<void> {
-  const { filename = "passivoo-artifact.png", pixelRatio = 2 } = options;
+  const { 
+    filename = "passivoo-artifact.png", 
+    pixelRatio = 2,
+    backgroundColor = "#09090b",
+    action = "share" 
+  } = options;
 
   try {
     // 1. Generate the PNG data URL
@@ -20,10 +28,7 @@ export async function exportStampClient(
       pixelRatio,
       cacheBust: true,
       skipFonts: false,
-      style: {
-        // Ensure transparent background if the node doesn't have one
-        background: "transparent",
-      },
+      backgroundColor,
     });
 
     // 2. Convert Data URL to a native File object for sharing
@@ -31,8 +36,9 @@ export async function exportStampClient(
     const blob = await res.blob();
     const file = new File([blob], filename, { type: "image/png" });
 
-    // 3. Attempt Native Mobile Web Share API
+    // 3. Attempt Native Mobile Web Share API (ONLY if action is "share")
     if (
+      action === "share" &&
       navigator.share &&
       navigator.canShare &&
       navigator.canShare({ files: [file] })
@@ -45,15 +51,14 @@ export async function exportStampClient(
         });
         return; // Success! Exit early.
       } catch (shareError: any) {
-        // If the user simply closed the share sheet, abort without throwing an error
         if (shareError.name === "AbortError") {
-          return;
+          return; // User canceled the share sheet
         }
-        console.warn("Native share failed or was rejected, falling back to download.", shareError);
+        console.warn("Native share failed, falling back to download.", shareError);
       }
     }
 
-    // 4. Fallback: Desktop / Unsupported Mobile Browser File Download
+    // 4. Force File Download (if action is "download" OR if share failed/unsupported)
     const link = document.createElement("a");
     link.download = filename;
     link.href = dataUrl;

@@ -44,7 +44,7 @@ export function ArtifactViewerModal({ children, item }: ArtifactViewerModalProps
     }
   }, []);
 
-  const handleExport = async () => {
+  const handleExport = async (action: "share" | "download") => {
     if (!stampRef.current || isExporting) return;
 
     try {
@@ -52,7 +52,13 @@ export function ArtifactViewerModal({ children, item }: ArtifactViewerModalProps
       await new Promise((resolve) => setTimeout(resolve, 150));
 
       const safeFilename = `passivoo-${item.rarity.toLowerCase()}-${item.name.toLowerCase().replace(/\s+/g, "-")}.png`;
-      await exportStampClient(stampRef.current, { filename: safeFilename });
+      
+      // Pass the background color and the specific action requested
+      await exportStampClient(stampRef.current, { 
+        filename: safeFilename,
+        backgroundColor: "#09090b",
+        action: action
+      });
 
     } catch (error) {
       console.error(error);
@@ -186,26 +192,50 @@ export function ArtifactViewerModal({ children, item }: ArtifactViewerModalProps
         </div>
 
         {/* Export / Share Controls */}
-        <div className="relative z-10 w-full mt-6 flex justify-center">
+        <div className="relative z-10 w-full mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 px-2 sm:px-8">
+          
+          {/* Render the Share button ONLY if the device supports native sharing */}
+          {canShareNative && (
+            <button
+              onClick={() => handleExport("share")}
+              disabled={isExporting}
+              className="w-full sm:flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-400 hover:to-amber-500 disabled:from-zinc-800 disabled:to-zinc-800 disabled:text-zinc-500 font-bold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.98] shadow-[0_0_30px_rgba(245,158,11,0.15)] uppercase tracking-wider text-sm cursor-pointer"
+            >
+              {isExporting ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>Wait...</span>
+                </>
+              ) : (
+                <>
+                  <Share size={18} strokeWidth={2} />
+                  <span>Share</span>
+                </>
+              )}
+            </button>
+          )}
+
+          {/* Render the Download button. 
+              If sharing is supported, this becomes a secondary dark button. 
+              If sharing is NOT supported (desktop), this stays as the primary gold button. */}
           <button
-            onClick={handleExport}
+            onClick={() => handleExport("download")}
             disabled={isExporting}
-            className="w-full sm:w-3/4 flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-400 hover:to-amber-500 disabled:from-zinc-800 disabled:to-zinc-800 disabled:text-zinc-500 font-bold py-3.5 px-8 rounded-xl transition-all duration-200 active:scale-[0.98] shadow-[0_0_30px_rgba(245,158,11,0.15)] uppercase tracking-wider text-sm cursor-pointer"
+            className={`w-full flex items-center justify-center gap-2 font-bold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.98] uppercase tracking-wider text-sm cursor-pointer disabled:bg-zinc-800 disabled:text-zinc-500 disabled:shadow-none
+              ${canShareNative 
+                ? 'sm:flex-1 bg-zinc-800 text-white hover:bg-zinc-700 border border-zinc-700' 
+                : 'sm:w-3/4 bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-400 hover:to-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.15)]'
+              }`}
           >
-            {isExporting ? (
+            {isExporting && !canShareNative ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
                 <span>Generating...</span>
               </>
-            ) : canShareNative ? (
-              <>
-                <Share size={18} strokeWidth={2} />
-                <span>Share Artifact</span>
-              </>
             ) : (
               <>
                 <Download size={18} strokeWidth={2} />
-                <span>Download PNG</span>
+                <span>Download</span>
               </>
             )}
           </button>
