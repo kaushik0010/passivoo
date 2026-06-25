@@ -8,5 +8,5 @@ export async function finalizeCheckout() {
   revalidatePath("/drops");
   
   // 2. Redirect the user to the freshly rendered page
-  redirect("/drops");
+  redirect("/collections");
 }

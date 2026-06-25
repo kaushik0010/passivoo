@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Download, Share, Loader2, Circle } from "lucide-react";
+import { usePostHog } from "posthog-js/react"; // <-- IMPORT POSTHOG HOOK
 import {
   Dialog,
   DialogContent,
@@ -33,6 +34,8 @@ export function ArtifactViewerModal({ children, item }: ArtifactViewerModalProps
   const [isExporting, setIsExporting] = useState(false);
   const [canShareNative, setCanShareNative] = useState(false);
   const stampRef = useRef<HTMLDivElement>(null);
+  
+  const posthog = usePostHog(); // <-- INITIALIZE POSTHOG HOOK
 
   const isPremium = !!item.theme;
 
@@ -60,9 +63,30 @@ export function ArtifactViewerModal({ children, item }: ArtifactViewerModalProps
         action: action
       });
 
+      // ==========================================
+      // ANALYTICS INTEGRATION
+      // ==========================================
+      // Fired strictly AFTER a successful export/share. 
+      // If navigator.share is cancelled by the user, it throws an AbortError 
+      // which is caught below, preventing false positive analytics.
+      posthog?.capture("Artifact Shared", {
+        artifact_id: item.id,
+        artifact_name: item.name,
+        category: item.category,
+        rarity: item.rarity,
+        is_premium: isPremium,
+        share_method: action,
+        points: item.points || undefined,
+        premium_theme: item.theme || undefined,
+      });
+
     } catch (error) {
+      // Intentionally omitting analytics logging here to avoid tracking cancellations
       console.error(error);
-      alert("Failed to export artifact. Please try again.");
+      // Suppress alert on AbortError (user cancelled share) to prevent annoying UX
+      if (error instanceof Error && error.name !== "AbortError") {
+        alert("Failed to export artifact. Please try again.");
+      }
     } finally {
       setIsExporting(false);
     }

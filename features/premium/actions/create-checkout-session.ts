@@ -8,6 +8,7 @@ import { DODO_CONFIG } from "@/config/dodo";
 import { dodo } from "@/lib/dodo/dodo";
 import { PremiumTheme } from "@/config/premium.constants";
 import { connectDB } from "@/lib/db/connect";
+import { ServerAnalytics } from "@/lib/analytics/server"; // <-- IMPORT ANALYTICS
 
 // ==========================================
 // RESPONSE TYPES
@@ -168,6 +169,17 @@ export async function createCheckoutSession(
       if (!session || !session.checkout_url) {
         throw new Error("Dodo response omitted critical redirection targets.");
       }
+
+      // ==========================================
+      // ANALYTICS INTEGRATION
+      // ==========================================
+      // Fired strictly AFTER the SDK succeeds. This guarantees the user is 
+      // actually being redirected to a valid Dodo checkout page.
+      await ServerAnalytics.trackCheckoutStarted({
+        userId: userId,
+        bundleId: bundleId,
+        // Price/Currency omitted here as it's deferred to the webhook for strict accuracy
+      });
 
       return {
         success: true,

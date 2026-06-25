@@ -56,6 +56,9 @@ importers:
       posthog-js:
         specifier: ^1.378.1
         version: 1.391.2
+      posthog-node:
+        specifier: ^5.38.4
+        version: 5.38.4
       radix-ui:
         specifier: ^1.4.3
         version: 1.6.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -868,8 +871,14 @@ packages:
   '@posthog/core@1.35.3':
     resolution: {integrity: sha512-EsGPbSLl39Jgo2KZ+kI9UAxFnh5nddaN5bNm2rXvUwF+vGmam9eN1EXeNbxhRU7ulEeIiGdm7XjoU7pzavkgIQ==}
 
+  '@posthog/core@1.37.1':
+    resolution: {integrity: sha512-KRBuxF/XBm3tNpqWlXpWE82XxsYsJb0jSyEic14LMXMvqDv5iApK1jfV0+seikDb9SpPs3tPkWUfHdwaUtFBtQ==}
+
   '@posthog/types@1.390.2':
     resolution: {integrity: sha512-WcfKz2GNn2vfDX8vXmJYbKxegPxVWHuDQ/pHdAn0HoZDXDFnEp/+x3qBQA+fEvtbPjjtjgAt2wIgJMlM7asx7g==}
+
+  '@posthog/types@1.391.1':
+    resolution: {integrity: sha512-ASwd7Nf4pViqdYRYaNRyPYRVKWa1CcHUAUWR0XeQJLGdNnsWACBwe0sSieb/cHnKsRXjRwO/23KIY83lm/Ccpw==}
 
   '@radix-ui/number@1.1.2':
     resolution: {integrity: sha512-ceTwaxc4I5IOi97DgCotl3pqiyRGvffcc0oOsE2dQYaJOFIDsDt4VWG6xEbg1QePv9QWausCEIppud/tJ1wNig==}
@@ -3687,6 +3696,15 @@ packages:
   posthog-js@1.391.2:
     resolution: {integrity: sha512-q0DZN6ljchSnAFJIXf+sQFTPlsLjTlRa+TvrL+QRb6413BGtib/MNiQy1bnwLKt8KR+f6xJYvkqdLyty9s4Aww==}
 
+  posthog-node@5.38.4:
+    resolution: {integrity: sha512-Jti056f+5C9y1MXb5yhxwwYBITxypWZHWcAp+UevcZ7/AKEQdSB9FiJP3WzEznw4vH3Bz0IlRKVgsofizRAoEA==}
+    engines: {node: ^20.20.0 || >=22.22.0}
+    peerDependencies:
+      rxjs: ^7.0.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
+
   powershell-utils@0.1.0:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
     engines: {node: '>=20'}
@@ -4964,7 +4982,13 @@ snapshots:
     dependencies:
       '@posthog/types': 1.390.2
 
+  '@posthog/core@1.37.1':
+    dependencies:
+      '@posthog/types': 1.391.1
+
   '@posthog/types@1.390.2': {}
+
+  '@posthog/types@1.391.1': {}
 
   '@radix-ui/number@1.1.2': {}
 
@@ -7814,6 +7838,10 @@ snapshots:
       preact: 10.29.2
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.3.0
+
+  posthog-node@5.38.4:
+    dependencies:
+      '@posthog/core': 1.37.1
 
   powershell-utils@0.1.0: {}
 

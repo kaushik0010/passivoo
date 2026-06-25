@@ -209,12 +209,11 @@ export default async function CollectionsPage() {
                         </ArtifactViewerModal>
                       ))}
 
-                      <div className="col-span-full w-full flex justify-center mt-4">
-                        <InfiniteScrollGrid 
-                          initialNextCursor={passportData.nextCursor} 
-                          initialHasMore={passportData.hasMore} 
-                        />
-                      </div>
+                      {/* FIXED: Removed the wrapping div completely. The component handles its own grid spanning now. */}
+                      <InfiniteScrollGrid 
+                        initialNextCursor={passportData.nextCursor} 
+                        initialHasMore={passportData.hasMore} 
+                      />
                       
                     </div>
                   </>

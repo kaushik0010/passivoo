@@ -5,6 +5,7 @@ import { CollectibleDto, PassportResponseDto } from "@/app/api/passport/route";
 import { DropStamp } from "@/features/drops/components/drop-stamp";
 import { DropCategory, DropRarity } from "@/features/drops/types/drop.types";
 import { Loader2 } from "lucide-react";
+import { ArtifactViewerModal } from "@/features/collections/components/artifact-viewer-modal"; // <-- NEW IMPORT
 
 interface InfiniteScrollGridProps {
   initialNextCursor: string | null;
@@ -58,21 +59,25 @@ export function InfiniteScrollGrid({ initialNextCursor, initialHasMore }: Infini
     <>
       {/* Client-side appended items render sequentially here inside the parent grid flow */}
       {items.map((drop) => (
-        <DropStamp
-          key={drop.id}
-          name={drop.name}
-          category={drop.category as DropCategory}
-          rarity={drop.rarity as DropRarity}
-          points={drop.points}
-          isRevealed={true} // Vault items are always visible
-        />
+        <ArtifactViewerModal key={drop.id} item={drop}>
+          <div className="transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer">
+            <DropStamp
+              name={drop.name}
+              category={drop.category as DropCategory}
+              rarity={drop.rarity as DropRarity}
+              points={drop.points}
+              isRevealed={true} // Vault items are always visible
+            />
+          </div>
+        </ArtifactViewerModal>
       ))}
 
       {/* Hidden Intersection Tracking Anchor block */}
       {hasMore && (
         <div 
           ref={observerTarget} 
-          className="col-span-2 md:col-span-3 lg:col-span-4 w-full flex items-center justify-center py-8 min-h-[60px]"
+          // FIXED: Changed from col-span-2/3/4 to col-span-full to span the entire bottom row cleanly
+          className="col-span-full w-full flex items-center justify-center py-8 min-h-[60px]"
         >
           {fetching && <Loader2 className="text-zinc-600 animate-spin" size={24} />}
         </div>

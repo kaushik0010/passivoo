@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { Webhooks } from "@dodopayments/nextjs";
-import { connectDB } from "@/lib/db/connect"; // Adjust path to your connect utility
+import { connectDB } from "@/lib/db/connect"; 
 import { PremiumBundle } from "@/features/premium/models/premium-bundle.model";
 import { PremiumDrop } from "@/features/premium/models/premium-drop.model";
 import { UserPremiumBundle } from "@/features/premium/models/user-premium-bundle.model";
 import { UserPremiumDrop } from "@/features/premium/models/user-premium-drop.model";
+import { ServerAnalytics } from "@/lib/analytics/server"; // <-- IMPORT ANALYTICS
 
 export const POST = Webhooks({
   // The Adaptor securely handles cryptographic signature verification using this key
@@ -72,7 +73,6 @@ export const POST = Webhooks({
       session.startTransaction();
 
       // Rule 11: Create the Purchase Receipt
-      // Using array syntax to cleanly pass the session object to Mongoose create()
       await UserPremiumBundle.create(
         [
           {
@@ -100,6 +100,20 @@ export const POST = Webhooks({
       // Commit the transaction
       await session.commitTransaction();
       console.log(`[WEBHOOK_SUCCESS]: Granted ${ownershipRecords.length} drops for Bundle ${bundle._id} to User ${userId}`);
+
+      // ==========================================
+      // ANALYTICS INTEGRATION
+      // ==========================================
+      // Fired strictly AFTER commit. A failure here is caught by the internal
+      // try/catch in ServerAnalytics, preventing the webhook from throwing
+      // and causing an infinite Dodo retry loop.
+      await ServerAnalytics.trackPurchaseCompleted({
+        userId: userId,
+        transactionId: paymentId,
+        bundleId: bundleId,
+        revenue: amountPaid,
+        currency: currency || "USD",
+      });
 
     } catch (error: any) {
       // Cleanly abort partial database state

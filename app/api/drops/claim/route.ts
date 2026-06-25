@@ -7,6 +7,7 @@ import { UserDrop } from "@/features/collections/models/user-drop.model";
 import { UserStats } from "@/features/leaderboard/models/user-stats.model";
 import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/connect";
+import { ServerAnalytics } from "@/lib/analytics/server"; // <-- IMPORT ANALYTICS
 
 // ==========================================
 // RESPONSE SHAPES
@@ -175,8 +176,29 @@ export async function POST(req: Request) {
     }
 
     // ==========================================
-    // PHASE 3: RETURN RESPONSE
+    // PHASE 3: ANALYTICS & RETURN RESPONSE
     // ==========================================
+
+    // Fire events concurrently for every drop successfully written to the DB
+    if (newlyClaimedDrops.length > 0) {
+      try {
+        await Promise.all(
+          newlyClaimedDrops.map((drop) =>
+            ServerAnalytics.trackDropClaimed({
+              userId,
+              dropId: drop.id,
+              dropName: drop.name,
+              category: drop.category,
+              rarity: drop.rarity,
+              isPremium: false, // Explicitly false per Phase 1 strict rule
+            })
+          )
+        );
+      } catch (analyticsError) {
+        // Suppress errors so analytics failures don't crash the user's success response
+        console.error("[Analytics Error] Failed to track Drop Claimed:", analyticsError);
+      }
+    }
 
     return NextResponse.json<ClaimResponseDto>({
       claimedCount: newlyClaimedDrops.length,
