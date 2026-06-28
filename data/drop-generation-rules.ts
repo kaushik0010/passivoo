@@ -44,22 +44,22 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.ROUND_OF_32]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.COMMON,
+      rarity: DropRarity.RARE,
       dropType: DropType.PERMANENT,
     },
     {
       category: DropCategory.STADIUM,
-      rarity: DropRarity.RARE,
+      rarity: DropRarity.EPIC,
       dropType: DropType.PERMANENT,
     },
     {
       category: DropCategory.EVENT_BADGE,
-      rarity: DropRarity.RARE,
+      rarity: DropRarity.COMMON,
       dropType: DropType.MATCH,
     },
     {
       category: DropCategory.SPECIAL,
-      rarity: DropRarity.EPIC,
+      rarity: DropRarity.RARE,
       dropType: DropType.MATCH,
     },
   ],
@@ -67,17 +67,17 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.ROUND_OF_16]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.COMMON,
-      dropType: DropType.PERMANENT,
-    },
-    {
-      category: DropCategory.STADIUM,
       rarity: DropRarity.RARE,
       dropType: DropType.PERMANENT,
     },
     {
-      category: DropCategory.EVENT_BADGE,
+      category: DropCategory.STADIUM,
       rarity: DropRarity.EPIC,
+      dropType: DropType.PERMANENT,
+    },
+    {
+      category: DropCategory.EVENT_BADGE,
+      rarity: DropRarity.COMMON,
       dropType: DropType.MATCH,
     },
     {
@@ -90,7 +90,7 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.QUARTER_FINAL]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.RARE,
+      rarity: DropRarity.EPIC,
       dropType: DropType.PERMANENT,
     },
     {
@@ -100,7 +100,7 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
     },
     {
       category: DropCategory.EVENT_BADGE,
-      rarity: DropRarity.EPIC,
+      rarity: DropRarity.RARE,
       dropType: DropType.MATCH,
     },
     {
@@ -113,17 +113,17 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.SEMI_FINAL]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.RARE,
-      dropType: DropType.PERMANENT,
-    },
-    {
-      category: DropCategory.STADIUM,
       rarity: DropRarity.EPIC,
       dropType: DropType.PERMANENT,
     },
     {
-      category: DropCategory.EVENT_BADGE,
+      category: DropCategory.STADIUM,
       rarity: DropRarity.LEGENDARY,
+      dropType: DropType.PERMANENT,
+    },
+    {
+      category: DropCategory.EVENT_BADGE,
+      rarity: DropRarity.EPIC,
       dropType: DropType.MATCH,
     },
     {
@@ -136,17 +136,17 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.THIRD_PLACE]: [
     {
       category: DropCategory.HOST_CITY,
-      rarity: DropRarity.RARE,
-      dropType: DropType.PERMANENT,
-    },
-    {
-      category: DropCategory.STADIUM,
       rarity: DropRarity.EPIC,
       dropType: DropType.PERMANENT,
     },
     {
-      category: DropCategory.EVENT_BADGE,
+      category: DropCategory.STADIUM,
       rarity: DropRarity.LEGENDARY,
+      dropType: DropType.PERMANENT,
+    },
+    {
+      category: DropCategory.EVENT_BADGE,
+      rarity: DropRarity.EPIC,
       dropType: DropType.MATCH,
     },
     {
@@ -159,12 +159,12 @@ export const FREE_DROP_RULES: Record<MatchStage, DropGenerationRule[]> = {
   [MatchStage.FINAL]: [
     {
         category: DropCategory.HOST_CITY,
-        rarity: DropRarity.RARE,
+        rarity: DropRarity.LEGENDARY,
         dropType: DropType.PERMANENT,
     },
     {
         category: DropCategory.STADIUM,
-        rarity: DropRarity.EPIC,
+        rarity: DropRarity.LEGENDARY,
         dropType: DropType.PERMANENT,
     },
     {

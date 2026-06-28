@@ -83,14 +83,22 @@ function generateDropName(match: any, rule: DropGenerationRule): string {
     }
 
     case DropCategory.SPECIAL: {
+      // Dynamic ticket-stub naming for early knockout rounds to ensure scarcity
+      if (
+        match.stage === MatchStage.ROUND_OF_32 ||
+        match.stage === MatchStage.ROUND_OF_16
+      ) {
+        return `Match ${match.matchNumber} Commemorative`;
+      }
+
+      // Prestigious static naming for late-stage matches
       const specialNames: Record<string, string> = {
-        [MatchStage.ROUND_OF_32]: "Knockout Stage Badge",
-        [MatchStage.ROUND_OF_16]: "Road to Glory Badge",
         [MatchStage.QUARTER_FINAL]: "Elite Eight Badge",
         [MatchStage.SEMI_FINAL]: "Final Four Badge",
         [MatchStage.THIRD_PLACE]: "Bronze Battle Badge",
         [MatchStage.FINAL]: "Championship Night Badge",
       };
+      
       const name = specialNames[match.stage];
       if (!name) throw new Error(`Missing Special Badge name mapping for stage: ${match.stage}`);
       return name;
