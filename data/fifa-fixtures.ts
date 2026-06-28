@@ -746,7 +746,171 @@ export const FIFA_FIXTURES: FifaFixture[] = [
       country: "USA",
     },
 
-  // Batch 4
+  // =====================================================
+  // ROUND OF 32
+  // Matches 73 - 88
+  // =====================================================
+
+  {
+    matchNumber: 73,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "South Africa",
+    awayTeam: "Canada",
+    kickoffAt: "2026-06-28T19:00:00.000Z",
+    stadium: "SoFi Stadium",
+    city: "Los Angeles",
+    country: "USA"
+  },
+  {
+    matchNumber: 74,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Germany",
+    awayTeam: "Paraguay",
+    kickoffAt: "2026-06-29T20:30:00.000Z",
+    stadium: "Gillette Stadium",
+    city: "Boston",
+    country: "USA"
+  },
+  {
+    matchNumber: 75,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Netherlands",
+    awayTeam: "Morocco",
+    kickoffAt: "2026-06-30T01:00:00.000Z",
+    stadium: "Estadio BBVA",
+    city: "Monterrey",
+    country: "Mexico"
+  },
+  {
+    matchNumber: 76,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Brazil",
+    awayTeam: "Japan",
+    kickoffAt: "2026-06-29T17:00:00.000Z",
+    stadium: "NRG Stadium",
+    city: "Houston",
+    country: "USA"
+  },
+  {
+    matchNumber: 77,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "France",
+    awayTeam: "Sweden",
+    kickoffAt: "2026-06-30T21:00:00.000Z",
+    stadium: "MetLife Stadium",
+    city: "New York/New Jersey",
+    country: "USA"
+  },
+  {
+    matchNumber: 78,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Ivory Coast",
+    awayTeam: "Norway",
+    kickoffAt: "2026-06-30T17:00:00.000Z",
+    stadium: "AT&T Stadium",
+    city: "Dallas",
+    country: "USA"
+  },
+  {
+    matchNumber: 79,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Mexico",
+    awayTeam: "Ecuador",
+    kickoffAt: "2026-07-01T01:00:00.000Z",
+    stadium: "Estadio Azteca",
+    city: "Mexico City",
+    country: "Mexico"
+  },
+  {
+    matchNumber: 80,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "England",
+    awayTeam: "DR Congo",
+    kickoffAt: "2026-07-01T16:00:00.000Z",
+    stadium: "Mercedes-Benz Stadium",
+    city: "Atlanta",
+    country: "USA"
+  },
+  {
+    matchNumber: 81,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "USA",
+    awayTeam: "Bosnia and Herzegovina",
+    kickoffAt: "2026-07-02T00:00:00.000Z",
+    stadium: "Levi's Stadium",
+    city: "San Francisco",
+    country: "USA"
+  },
+  {
+    matchNumber: 82,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Belgium",
+    awayTeam: "Senegal",
+    kickoffAt: "2026-07-02T03:00:00.000Z",
+    stadium: "Lumen Field",
+    city: "Seattle",
+    country: "USA"
+  },
+  {
+    matchNumber: 83,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Portugal",
+    awayTeam: "Croatia",
+    kickoffAt: "2026-07-02T23:00:00.000Z",
+    stadium: "BMO Field",
+    city: "Toronto",
+    country: "Canada"
+  },
+  {
+    matchNumber: 84,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Spain",
+    awayTeam: "Austria",
+    kickoffAt: "2026-07-02T22:00:00.000Z",
+    stadium: "SoFi Stadium",
+    city: "Los Angeles",
+    country: "USA"
+  },
+  {
+    matchNumber: 85,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Switzerland",
+    awayTeam: "Algeria",
+    kickoffAt: "2026-07-03T03:00:00.000Z",
+    stadium: "BC Place",
+    city: "Vancouver",
+    country: "Canada"
+  },
+  {
+    matchNumber: 86,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Argentina",
+    awayTeam: "Cape Verde",
+    kickoffAt: "2026-07-04T00:00:00.000Z",
+    stadium: "Hard Rock Stadium",
+    city: "Miami",
+    country: "USA"
+  },
+  {
+    matchNumber: 87,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Colombia",
+    awayTeam: "Ghana",
+    kickoffAt: "2026-07-04T01:30:00.000Z",
+    stadium: "Arrowhead Stadium",
+    city: "Kansas City",
+    country: "USA"
+  },
+  {
+    matchNumber: 88,
+    stage: MatchStage.ROUND_OF_32,
+    homeTeam: "Australia",
+    awayTeam: "Egypt",
+    kickoffAt: "2026-07-04T02:00:00.000Z",
+    stadium: "AT&T Stadium",
+    city: "Dallas",
+    country: "USA"
+  },
 
   // =====================================================
   // ROUND OF 16
