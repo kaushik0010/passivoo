@@ -27,7 +27,7 @@ export function FinalCtaSection({ user }: FinalCtaSectionProps) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           {user ? (
             <Link
-              href="/collections"
+              href="/passport"
               className="group flex h-12 sm:h-14 w-full sm:w-auto cursor-pointer items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-8 sm:px-10 text-sm sm:text-base font-bold text-slate-950 shadow-[0_0_30px_rgba(245,158,11,0.2)] transition-all hover:from-amber-400 hover:to-amber-500 hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] uppercase tracking-wider active:scale-[0.98]"
             >
               Open My Passport

@@ -97,7 +97,7 @@ export async function Navbar() {
                 Sign In
               </Link>
               <Link 
-                href="/register" 
+                href="/passport" 
                 className="text-sm font-medium h-9 px-4 inline-flex items-center justify-center rounded-md bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 hover:from-amber-400 hover:to-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.15)] transition-all cursor-pointer"
               >
                 Create Passport
@@ -144,6 +144,12 @@ export async function Navbar() {
                     
                     <div className="flex flex-col gap-4">
                       <Link href="/collections" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
+                        My Collection
+                      </Link>
+                    </div>
+                    
+                    <div className="flex flex-col gap-4">
+                      <Link href="/passport" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
                         My Passport
                       </Link>
                     </div>
