@@ -46,7 +46,7 @@ export async function Navbar() {
         <Link href="/" className="flex items-center gap-2 cursor-pointer group">
           <div className="flex items-center justify-center transition-transform group-hover:scale-105">
             <Image 
-              src="/logo.png" 
+              src="/logo.webp" 
               alt="Passivoo Logo" 
               width={32} 
               height={32} 
@@ -117,7 +117,7 @@ export async function Navbar() {
               <SheetHeader className="text-left mb-8">
                 <SheetTitle className="text-slate-100 flex items-center gap-2">
                   <Image 
-                    src="/logo.png" 
+                    src="/logo.webp" 
                     alt="Passivoo Logo" 
                     width={20} 
                     height={20} 

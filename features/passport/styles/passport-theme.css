@@ -1,0 +1,28 @@
+/* 
+  Passport Design System
+  These tokens define the material properties of the digital passport.
+*/
+
+.passport-canvas {
+  /* Core Colors */
+  --passport-bg-primary: #0A1128; /* Deep premium navy leather */
+  --passport-bg-secondary: #060B19; /* Darker navy for vignette/shadows */
+  
+  /* The Foil System */
+  --passport-gold-base: #D4AF37;
+  --passport-gold-highlight: #F9E596;
+  --passport-gold-dark: #996515;
+  
+  /* Text & Engraving */
+  --passport-text-primary: #F3E5AB; /* Cream/gold for main text */
+  --passport-text-secondary: #8A9BB8; /* Muted slate for labels */
+  
+  /* Physical Properties */
+  --passport-border-main: var(--passport-gold-dark);
+  --passport-border-accent: var(--passport-gold-base);
+  --passport-shadow-inset: inset 0 0 60px rgba(0, 0, 0, 0.8);
+  --passport-shadow-drop: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+
+  /* SVG Noise for Leather Texture (Data URI) */
+  --passport-leather-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}

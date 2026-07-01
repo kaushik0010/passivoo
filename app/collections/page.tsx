@@ -18,7 +18,7 @@ import { DropCategory, DropRarity } from "@/features/drops/types/drop.types";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "My Passport",
+  title: "My Collection",
   description: "View your personal vault of digital artifacts, event stamps, and collector history.",
   robots: {
     index: false,
