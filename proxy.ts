@@ -10,8 +10,6 @@ const PUBLIC_ROUTES = ["/"];
 const PROTECTED_ROUTE_PREFIXES = [
   "/drops",
   "/collections",
-  "/passport",
-  "/leaderboard",
   "/profile",
   "/store"
 ];

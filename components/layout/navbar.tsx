@@ -76,7 +76,12 @@ export async function Navbar() {
                 </div>
                 <DropdownMenuSeparator className="bg-slate-800" />
                 <DropdownMenuItem asChild className="cursor-pointer focus:bg-slate-900 focus:text-slate-100">
-                  <Link href="/collections" className="w-full">My Passport</Link>
+                  <Link href="/passport" className="w-full">My Passport</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-slate-800" />
+
+                <DropdownMenuItem asChild className="cursor-pointer focus:bg-slate-900 focus:text-slate-100">
+                  <Link href="/collections" className="w-full">My Collection</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-slate-800" />
                 <DropdownMenuItem asChild className="cursor-pointer focus:bg-red-950 focus:text-red-400 text-red-400">
@@ -143,14 +148,14 @@ export async function Navbar() {
                     </div>
                     
                     <div className="flex flex-col gap-4">
-                      <Link href="/collections" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
-                        My Collection
+                      <Link href="/passport" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
+                        My Passport
                       </Link>
                     </div>
                     
                     <div className="flex flex-col gap-4">
-                      <Link href="/passport" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
-                        My Passport
+                      <Link href="/collections" className="text-sm font-medium text-slate-300 hover:text-amber-500 cursor-pointer">
+                        My Collection
                       </Link>
                     </div>
 

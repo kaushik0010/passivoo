@@ -1,5 +1,6 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export function PassportGuestBanner() {
   return (
@@ -38,8 +39,9 @@ export function PassportGuestBanner() {
           </div>
         </div>
 
-        <button 
-          className="shrink-0 w-full sm:w-auto font-bold py-2.5 px-6 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 uppercase tracking-wider text-xs cursor-pointer"
+        <Link 
+          href="/register"
+          className="shrink-0 w-full sm:w-auto font-bold py-2.5 px-6 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 uppercase tracking-wider text-xs cursor-pointer inline-block text-center"
           aria-label="Create your Passport account"
           style={{
             background: "linear-gradient(to right, var(--passport-gold-base), var(--passport-gold-highlight))",
@@ -48,7 +50,7 @@ export function PassportGuestBanner() {
           }}
         >
           Create Passport
-        </button>
+        </Link>
       </div>
     </div>
   );

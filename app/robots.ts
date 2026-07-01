@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
       // to preserve crawl budget for high-value public pages.
       disallow: [
         "/collections/",
-        "/passport/",
+        "/drops",
         "/profile/",
         "/api/",
         "/_next/",

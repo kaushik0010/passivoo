@@ -10,6 +10,7 @@ import { PostHogIdentifier } from "@/components/analytics/posthog-identifier";
 import { getCurrentUser } from "@/features/auth/actions/get-current-user";
 
 import { Analytics } from "@vercel/analytics/next"
+import { GlobalFooter } from "@/components/layout/global-footer";
 
 // Initialize Inter font for a clean, highly legible, modern aesthetic
 const inter = Inter({ 
@@ -133,6 +134,8 @@ export default async function RootLayout({
               {children}
               <Analytics />
             </main>
+
+            <GlobalFooter />
           </div>
 
           {/* Global Toast Provider */}
