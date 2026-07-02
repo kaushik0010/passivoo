@@ -66,7 +66,7 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-4 text-zinc-400 leading-relaxed">
             <p>
-              The project starts with the FIFA World Cup 2026. But the long-term goal is to build a single, unified passport for your entire life as a fan.
+              The project starts with the Football World Cup 2026. But the long-term goal is to build a single, unified passport for your entire life as a fan.
             </p>
             <p>
               Eventually, Passivoo will expand to the Olympics, Formula 1, the UEFA Champions League, and Cricket World Cups. One account. One timeline. Decades of sports history.

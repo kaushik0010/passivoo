@@ -51,7 +51,7 @@ export function PassportIdentity({ data }: PassportIdentityProps) {
             Event
           </span>
           <span className="text-[var(--passport-text-primary)] text-sm font-mono tracking-widest uppercase">
-            FIFA World Cup 2026™
+            FootBall World Cup 2026
           </span>
         </div>
 
@@ -61,7 +61,7 @@ export function PassportIdentity({ data }: PassportIdentityProps) {
             Passion
           </span>
           <span className="text-[var(--passport-text-primary)] text-sm font-mono tracking-widest uppercase">
-            Football Unites The World
+            FootBall Unites The World
           </span>
         </div>
         

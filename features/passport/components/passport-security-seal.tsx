@@ -47,7 +47,7 @@ export function PassportSecuritySeal() {
         {/* Text Ribbon */}
         <div className="flex flex-col items-center w-full px-4 text-center">
           <span className="text-[var(--passport-text-primary)] text-sm font-serif tracking-[0.15em] leading-tight font-black uppercase">
-            Official
+            Genesis
           </span>
           <span className="text-[var(--passport-text-primary)] text-sm font-serif tracking-[0.15em] leading-tight font-black uppercase">
             Edition
