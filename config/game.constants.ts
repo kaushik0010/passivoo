@@ -14,4 +14,4 @@ export const CLAIM_WINDOW_BEFORE_KICKOFF_MINUTES = 10;
  * How long a collectible drop remains available for claiming after the match starts.
  * Current Rule: 3 hours total (covering 90 mins + halftime + stoppage + extra time + 60 min buffer).
  */
-export const CLAIM_WINDOW_AFTER_KICKOFF_HOURS = 3;
+export const CLAIM_WINDOW_AFTER_KICKOFF_HOURS = 4;

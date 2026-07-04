@@ -886,7 +886,7 @@ export const FIFA_FIXTURES: FifaFixture[] = [
     stage: MatchStage.ROUND_OF_32,
     homeTeam: "Argentina",
     awayTeam: "Cape Verde",
-    kickoffAt: "2026-07-04T00:00:00.000Z",
+    kickoffAt: "2026-07-03T22:00:00.000Z",
     stadium: "Hard Rock Stadium",
     city: "Miami",
     country: "USA"
@@ -906,7 +906,7 @@ export const FIFA_FIXTURES: FifaFixture[] = [
     stage: MatchStage.ROUND_OF_32,
     homeTeam: "Australia",
     awayTeam: "Egypt",
-    kickoffAt: "2026-07-04T02:00:00.000Z",
+    kickoffAt: "2026-07-03T18:00:00.000Z",
     stadium: "AT&T Stadium",
     city: "Dallas",
     country: "USA"
@@ -916,6 +916,86 @@ export const FIFA_FIXTURES: FifaFixture[] = [
   // ROUND OF 16
   // Matches 89 - 96
   // =====================================================
+  {
+    matchNumber: 89,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Canada",
+    awayTeam: "Morocco",
+    kickoffAt: "2026-07-04T17:00:00.000Z",
+    stadium: "NRG Stadium",
+    city: "Houston",
+    country: "USA"
+  },
+  {
+    matchNumber: 90,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Paraguay",
+    awayTeam: "France",
+    kickoffAt: "2026-07-04T21:00:00.000Z",
+    stadium: "Lincoln Financial Field",
+    city: "Philadelphia",
+    country: "USA"
+  },
+  {
+    matchNumber: 91,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Brazil",
+    awayTeam: "Norway",
+    kickoffAt: "2026-07-05T20:00:00.000Z",
+    stadium: "MetLife Stadium",
+    city: "New York/New Jersey",
+    country: "USA"
+  },
+  {
+    matchNumber: 92,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Mexico",
+    awayTeam: "England",
+    kickoffAt: "2026-07-06T00:00:00.000Z",
+    stadium: "Estadio Azteca",
+    city: "Mexico City",
+    country: "Mexico"
+  },
+  {
+    matchNumber: 93,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Portugal",
+    awayTeam: "Spain",
+    kickoffAt: "2026-07-06T19:00:00.000Z",
+    stadium: "AT&T Stadium",
+    city: "Dallas",
+    country: "USA"
+  },
+  {
+    matchNumber: 94,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "USA",
+    awayTeam: "Belgium",
+    kickoffAt: "2026-07-07T00:00:00.000Z",
+    stadium: "Lumen Field",
+    city: "Seattle",
+    country: "USA"
+  },
+  {
+    matchNumber: 95,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Argentina",
+    awayTeam: "Egypt",
+    kickoffAt: "2026-07-07T16:00:00.000Z",
+    stadium: "Mercedes-Benz Stadium",
+    city: "Atlanta",
+    country: "USA"
+  },
+  {
+    matchNumber: 96,
+    stage: MatchStage.ROUND_OF_16,
+    homeTeam: "Switzerland",
+    awayTeam: "Colombia",
+    kickoffAt: "2026-07-07T20:00:00.000Z",
+    stadium: "BC Place",
+    city: "Vancouver",
+    country: "Canada"
+  }
 
   // =====================================================
   // QUARTER FINALS
