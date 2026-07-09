@@ -995,12 +995,53 @@ export const FIFA_FIXTURES: FifaFixture[] = [
     stadium: "BC Place",
     city: "Vancouver",
     country: "Canada"
-  }
+  },
 
   // =====================================================
   // QUARTER FINALS
   // Matches 97 - 100
   // =====================================================
+
+  {
+    matchNumber: 97,
+    stage: MatchStage.QUARTER_FINAL,
+    homeTeam: "France",
+    awayTeam: "Morocco",
+    kickoffAt: "2026-07-09T20:00:00.000Z",
+    stadium: "Gillette Stadium",
+    city: "Boston",
+    country: "USA"
+  },
+  {
+    matchNumber: 98,
+    stage: MatchStage.QUARTER_FINAL,
+    homeTeam: "Spain",
+    awayTeam: "Belgium",
+    kickoffAt: "2026-07-10T19:00:00.000Z",
+    stadium: "SoFi Stadium",
+    city: "Los Angeles",
+    country: "USA"
+  },
+  {
+    matchNumber: 99,
+    stage: MatchStage.QUARTER_FINAL,
+    homeTeam: "Norway",
+    awayTeam: "England",
+    kickoffAt: "2026-07-11T21:00:00.000Z",
+    stadium: "Hard Rock Stadium",
+    city: "Miami",
+    country: "USA"
+  },
+  {
+    matchNumber: 100,
+    stage: MatchStage.QUARTER_FINAL,
+    homeTeam: "Argentina",
+    awayTeam: "Switzerland",
+    kickoffAt: "2026-07-12T01:00:00.000Z",
+    stadium: "Arrowhead Stadium",
+    city: "Kansas City",
+    country: "USA"
+  }
 
   // =====================================================
   // SEMI FINALS

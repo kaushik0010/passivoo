@@ -49,7 +49,7 @@ export function PassportGuestBanner() {
             boxShadow: "0 0 15px color-mix(in srgb, var(--passport-gold-base) 20%, transparent)"
           }}
         >
-          Create Passport
+          Own Username
         </Link>
       </div>
     </div>
