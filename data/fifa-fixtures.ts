@@ -1041,12 +1041,33 @@ export const FIFA_FIXTURES: FifaFixture[] = [
     stadium: "Arrowhead Stadium",
     city: "Kansas City",
     country: "USA"
-  }
+  },
 
   // =====================================================
   // SEMI FINALS
   // Matches 101 - 102
   // =====================================================
+
+  {
+    matchNumber: 101,
+    stage: MatchStage.SEMI_FINAL,
+    homeTeam: "France",
+    awayTeam: "Spain",
+    kickoffAt: "2026-07-14T19:00:00.000Z",
+    stadium: "AT&T Stadium",
+    city: "Dallas",
+    country: "USA"
+  },
+  {
+    matchNumber: 102,
+    stage: MatchStage.SEMI_FINAL,
+    homeTeam: "England",
+    awayTeam: "Argentina",
+    kickoffAt: "2026-07-15T19:00:00.000Z",
+    stadium: "Mercedes-Benz Stadium",
+    city: "Atlanta",
+    country: "USA"
+  }
 
   // =====================================================
   // THIRD PLACE
