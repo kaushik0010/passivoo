@@ -1067,15 +1067,35 @@ export const FIFA_FIXTURES: FifaFixture[] = [
     stadium: "Mercedes-Benz Stadium",
     city: "Atlanta",
     country: "USA"
-  }
+  },
 
   // =====================================================
   // THIRD PLACE
   // Match 103
   // =====================================================
+  {
+    matchNumber: 103,
+    stage: MatchStage.THIRD_PLACE,
+    homeTeam: "France",
+    awayTeam: "England",
+    kickoffAt: "2026-07-18T21:00:00.000Z",
+    stadium: "Hard Rock Stadium",
+    city: "Miami",
+    country: "USA"
+  },
 
   // =====================================================
   // FINAL
   // Match 104
   // =====================================================
+  {
+    matchNumber: 104,
+    stage: MatchStage.FINAL,
+    homeTeam: "Spain",
+    awayTeam: "Argentina",
+    kickoffAt: "2026-07-19T19:00:00.000Z",
+    stadium: "MetLife Stadium",
+    city: "New York/New Jersey",
+    country: "USA"
+  }
 ];
